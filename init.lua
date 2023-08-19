@@ -4,8 +4,6 @@ return {
     remote = "origin", -- remote to use
     channel = "stable", -- "stable" or "nightly"
     version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-    branch = "nightly", -- branch name (NIGHTLY ONLY)
-    commit = nil, -- commit hash (NIGHTLY ONLY)
     pin_plugins = nil, -- nil, true, false (nil will pin plugins on stable only)
     skip_prompts = false, -- skip prompts about breaking changes
     show_changelog = true, -- show the changelog after performing an update
@@ -65,6 +63,38 @@ return {
     },
   },
 
+  plugins = {
+    -- TODO: Move to user/plugsins/dap.lua
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      opts = {
+        handlers = {
+          python = function(config)
+            config.adapters.python = {
+              type = "executable",
+              command = "/Users/ben/.asdf/shims/python",
+              args = {
+                "-m",
+                "debugpy.adapter",
+              },
+            }
+            require("mason-nvim-dap").default_setup(config) -- Gets mason-nvim-dap to set up the debugger. No need for manually installing debugpy.
+
+            -- dap.configurations.python = {
+            --   {
+            --     type = "python",
+            --     request = "launch",
+            --     name = "Launch file",
+            --     program = "${file}", -- This configuration will launch the current file if used.
+            --   },
+            -- }
+          end,
+        },
+        ensure_installed = { "python" } -- mason-nvim-dap installs these automatically
+      },
+    },
+  },
+
   -- This function is run last and is a good place to configuring
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
@@ -81,5 +111,19 @@ return {
     --     ["~/%.config/foo/.*"] = "fooscript",
     --   },
     -- }
+    -- Run dap-ui when a debugging session is started
+    local dap = require("dap")
+    local dapui = require("dapui")
+    dap.listeners.after.event_initialized["dapui_config"]=function()
+      vim.cmd.Neotree "action=close"
+      dapui.open()
+    end
+    dap.listeners.before.event_terminated["dapui_config"]=function()
+      dapui.close()
+    end
+    dap.listeners.before.event_exited["dapui_config"]=function()
+      dapui.close()
+    end
   end,
 }
+
