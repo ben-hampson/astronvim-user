@@ -41,15 +41,15 @@ return {
     ["<leader>js"] = { function() require('neotest').summary.toggle() end, desc = "Test [S]ummary" },
 
     ["<leader>jf"] = { function() require('neotest').run.run(vim.fn.expand('%')) end, desc = "Test [F]ile" },
-    ["<leader>jF"] = { function() require('neotest').run.run({vim.fn.expand('%'), strategy='dap' }) end, desc = "Test + Debug [F]ile"}, -- Error expecting luv callback
+    ["<leader>jF"] = { function() require('neotest').run.run({vim.fn.expand('%'), strategy='dap', suite=false }) end, desc = "Test + Debug [F]ile"}, -- Error expecting luv callback
 
     ["<leader>jn"] = { function() require('neotest').run.run() end, desc = "Test [N]earest" },
-    ["<leader>jN"] = { function() require('neotest').run.run({ strategy='dap' }) end, desc = "Test + Debug [N]earest"},
+    ["<leader>jN"] = { function() require('neotest').run.run({ strategy='dap', suite=false }) end, desc = "Test + Debug [N]earest"},
 
     ["<leader>jl"] = { function() require('neotest').run.run_last() end, desc = "[L]ast Test" },
-    ["<leader>jL"] = { function() require('neotest').run.run_last({ strategy='dap' }) end, desc = "Debug [L]ast Test" },
+    ["<leader>jL"] = { function() require('neotest').run.run_last({ strategy='dap', suite=false }) end, desc = "Debug [L]ast Test" },
 
-    ["<leader>jo"] = { function() require('neotest').output.open({ enter=true }) end, desc = "Test [O]utput" },
+    ["<leader>jo"] = { function() require('neotest').output.open({ short=false, enter=false, quiet=false, last_run=true, auto_close=true }) end, desc = "Test [O]utput" },
   },
   t = {
   },
