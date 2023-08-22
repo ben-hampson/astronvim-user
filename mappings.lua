@@ -32,7 +32,11 @@ return {
         end)
       end,
       desc = "Debugger: Conditional Breakpoint",
-    }
+    },
+
+    -- neotest
+    ["ts"] = { function() require('neotest').summary.toggle() end, desc = "[T]est [S]ummary" },
+    ["tf"] = { function() require('neotest').run.run(vim.fn.expand('%')) end, desc = "[T]est [F]ile" }
   },
   t = {
     -- setting a mapping to false will disable it
