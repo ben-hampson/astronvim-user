@@ -1,11 +1,10 @@
 -- https://github.com/AstroNvim/astrocommunity/blob/main/lua/astrocommunity/colorscheme/catppuccin/init.lua
 return {
 
-  -- Set colorscheme to use
-  colorscheme = "catppuccin",
-
   {
     "catppuccin/nvim",
+    lazy = false,
+    priority = 1000,
     name = "catppuccin",
     opts = {
       integrations = {
